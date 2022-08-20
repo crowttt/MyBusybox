@@ -17,15 +17,18 @@ ln.o:
 cp.o:
 	${CC} ${STD} -c lib/cp.cc
 
-lazybox.o:
+MyBusybox.o:
 	${CC} ${STD} -c MyBusybox.cpp
 
-build: ls.o lazybox.o ln.o cp.o
-	${CC} ls.o ln.o cp.o MyBusybox.o -o ${EXE}
+shell.o:
+	${CC} ${STD} -c -lreadline lib/shell.cc
+
+build: ls.o MyBusybox.o ln.o cp.o shell.o
+	${CC} ls.o ln.o cp.o MyBusybox.o shell.o -lreadline -o ${EXE}
 	rm *.o
 
 link: build
-
+	ln -s ${EXE} shell
 	mkdir -p bin
 	cd ./bin && ln -s ../${EXE} ls
 	cd ./bin && ln -s ../${EXE} ln
@@ -33,5 +36,8 @@ link: build
 
 clean:
 	rm -f bin/*
+	find -type l -delete
 	rm -f ${EXE}
+
+
 
