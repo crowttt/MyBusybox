@@ -10,7 +10,10 @@ int main(int args, char* argv[]){
     string exePath = argv[0];
     string exe = exePath.substr(exePath.find_last_of("/\\") + 1);
 
-    if(exe.compare("ls") == 0){
+    if(exe.compare("shell") == 0){
+        shell_main();
+    }
+    else if(exe.compare("ls") == 0){
         string path = ".";
         vector<string> argList;
         int argNum = args - 1;
